@@ -4,6 +4,8 @@ using System.Collections;
 public class TouchEffects : MonoBehaviour 
 {
 	public ParticleSystem explosionEffect;     // explosion prefab
+	public GameObject trailEffect;			   // trail prefab
+
 
 	private static TouchEffects touchEffects;  // class instance
 
@@ -23,6 +25,10 @@ public class TouchEffects : MonoBehaviour
 		if (explosionEffect == null)
 		{
 			Debug.LogError("Missing Explosion Effect.");
+		}
+		if (trailEffect == null)
+		{
+			Debug.LogError("Missing Rainbow Trail Effect.");
 		}
 	}
 
@@ -46,6 +52,27 @@ public class TouchEffects : MonoBehaviour
 		
 			// Destory at the end of the effect
 			Destroy(effect.gameObject, effect.duration);
+		}
+
+		return effect;
+	}
+
+	// MakeTrail
+	// create an trailing effect at the touch position
+	// --------------------------------------------------------------------------
+	public static GameObject MakeTrail(Vector3 position)
+	{
+		GameObject effect;
+		
+		if (touchEffects == null)
+		{
+			Debug.LogError("Missing TouchEffect Script instance.");
+			effect = null;
+		}
+		else
+		{
+			effect = Instantiate(touchEffects.trailEffect) as GameObject;
+			effect.transform.position = position;
 		}
 
 		return effect;
