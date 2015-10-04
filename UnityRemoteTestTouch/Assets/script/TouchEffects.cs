@@ -4,8 +4,8 @@ using System.Collections;
 public class TouchEffects : MonoBehaviour 
 {
 	public ParticleSystem explosionEffect;     // explosion prefab
-	public GameObject trailEffect;			   // trail prefab
-
+	public GameObject     vortexEffect;        // vortex prefab
+	public GameObject     trailEffect;	       // trail prefab
 
 	private static TouchEffects touchEffects;  // class instance
 
@@ -47,7 +47,7 @@ public class TouchEffects : MonoBehaviour
 		else
 		{
 			// Create effect
-			effect = Instantiate(touchEffects.explosionEffect) as ParticleSystem;
+			effect = Instantiate(touchEffects.explosionEffect);
 			effect.transform.position = position;
 		
 			// Destory at the end of the effect
@@ -71,8 +71,29 @@ public class TouchEffects : MonoBehaviour
 		}
 		else
 		{
-			effect = Instantiate(touchEffects.trailEffect) as GameObject;
+			effect = Instantiate(touchEffects.trailEffect);
 			effect.transform.position = position;
+		}
+
+		return effect;
+	}
+
+	// MakeVortex
+	// Create a particle vortex at the touch position
+	// --------------------------------------------------------------------------
+	public static ParticleSystem MakeVortex(Vector3 position)
+	{
+		ParticleSystem effect;
+
+		if (touchEffects == null)
+		{
+			Debug.LogError("Missing TouchEffect Script instance.");
+			effect = null;
+		}
+		else
+		{   
+			GameObject particleVortex = Instantiate(touchEffects.vortexEffect, position, Quaternion.identity) as GameObject;
+			effect = particleVortex.GetComponentInChildren<ParticleSystem>();
 		}
 
 		return effect;
